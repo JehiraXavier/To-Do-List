@@ -1,59 +1,59 @@
-let form = document.getElementById("form");
-let textInput = document.getElementById("textInput");
+let task_form = document.getElementById("task_form");
+let titleInput = document.getElementById("titleInput");
 let dateInput = document.getElementById("dateInput");
-let textarea = document.getElementById("textarea");
-let msg = document.getElementById("msg");
-let tasks = document.getElementById("tasks");
-let add = document.getElementById("add");
+let description = document.getElementById("description");
+let warning = document.getElementById("warning");
+let addedTasks = document.getElementById("addedTasks");
+let newTask = document.getElementById("newTask");
 
-form.addEventListener("submit", (e) => {
+task_form.addEventListener("submit", (e) => {
   e.preventDefault();
   formValidation();
 });
 
 let formValidation = () => {
-  if (textInput.value === "") {
-    console.log("failure");
-    msg.innerHTML = "Task cannot be blank";
+  if (titleInput.value === "") {
+    console.log("Failure");
+    warning.innerHTML = "Please enter task title";
   } else {
-    console.log("success");
-    msg.innerHTML = "";
+    console.log("Success");
+    warning.innerHTML = "";
     acceptData();
-    add.setAttribute("data-bs-dismiss", "modal");
-    add.click();
+    newTask.setAttribute("data-bs-dismiss", "modal");
+    newTask.click();
 
     (() => {
-      add.setAttribute("data-bs-dismiss", "");
+      newTask.setAttribute("data-bs-dismiss", "");
     })();
   }
 };
 
-let data = [{}];
+let taskData = [{}];
 
 let acceptData = () => {
-  data.push({
-    text: textInput.value,
+  taskData.push({
+    taskTitle: titleInput.value,
     date: dateInput.value,
-    description: textarea.value,
+    description: description.value,
   });
 
-  localStorage.setItem("data", JSON.stringify(data));
+  localStorage.setItem("taskData", JSON.stringify(taskData));
 
-  console.log(data);
+  console.log(taskData);
   createTasks();
 };
 
 let createTasks = () => {
-  tasks.innerHTML = "";
-  data.map((x, y) => {
-    return (tasks.innerHTML += `
+  addedTasks.innerHTML = "";
+  taskData.map((x, y) => {
+    return (addedTasks.innerHTML += `
     <div id=${y}>
-          <span class="fw-bold fs-4">${x.text}</span>
+          <span class="fw-bold fs-4">${x.taskTitle}</span>
           <span class="text-dark fs-5">${x.date}</span>
           <p class="fs-6 font-weight-normal lh-base">${x.description}</p>
   
           <span class="options">
-            <i onClick= "editTask(this)" data-bs-toggle="modal" data-bs-target="#form" class="fas fa-edit"></i>
+            <i onClick= "editTask(this)" data-bs-toggle="modal" data-bs-target="#task_form" class="fas fa-edit"></i>
             <i onClick ="deleteTask(this);createTasks()" class="fas fa-trash-alt"></i>
           </span>
         </div>
@@ -64,31 +64,31 @@ let createTasks = () => {
 };
 
 let deleteTask = (e) => {
-  e.parentElement.parentElement.remove();
-  data.splice(e.parentElement.parentElement.id, 1);
-  localStorage.setItem("data", JSON.stringify(data));
-  console.log(data);
+  // e.parentElement.parentElement.remove();  //Will delete the HTML element from the screen
+  taskData.splice(e.parentElement.parentElement.id, 1);
+  localStorage.setItem("taskData", JSON.stringify(taskData));
+  console.log(taskData);
   
 };
 
 let editTask = (e) => {
   let selectedTask = e.parentElement.parentElement;
 
-  textInput.value = selectedTask.children[0].innerHTML;
+  titleInput.value = selectedTask.children[0].innerHTML;
   dateInput.value = selectedTask.children[1].innerHTML;
-  textarea.value = selectedTask.children[2].innerHTML;
+  description.value = selectedTask.children[2].innerHTML;
 
   deleteTask(e);
 };
 
 let resetForm = () => {
-  textInput.value = "";
+  titleInput.value = "";
   dateInput.value = "";
-  textarea.value = "";
+  description.value = "";
 };
 
 (() => {
-  data = JSON.parse(localStorage.getItem("data")) || []
-  console.log(data);
+  taskData = JSON.parse(localStorage.getItem("taskData")) || []
+  console.log(taskData);
   createTasks();
 })();

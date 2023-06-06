@@ -48,13 +48,13 @@ body {
   border: 2px solid hsl(106, 34%, 22%);
 }
 
-#tasks {
+#addedTasks {
   display: grid;
   grid-template-columns: 1fr;
   gap: 15px;
 }
 
-#tasks div {
+#addedTasks div {
   padding: 10px;
   display: grid;
   gap: 5px;
@@ -63,17 +63,17 @@ body {
   border-radius: 15px;
 }
 
-#tasks div .options {
+#addedTasks div .options {
   justify-self: center;
   display: flex;
   gap: 20px;
 }
 
-#tasks div .options i {
+#addedTasks div .options i {
   cursor: pointer;
 }
 
-#msg {
+#warning {
   color: red;
 }
 
