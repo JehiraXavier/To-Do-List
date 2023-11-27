@@ -9,8 +9,6 @@
 
 ![To-do list app](https://res.cloudinary.com/dgm9zfiuo/image/upload/v1698793675/Portfolio%20projects/view_3_wgtglk.png)  
 
-## Project summary
-
 ### Technologies used
 * HTML
 * CSS
